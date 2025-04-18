@@ -88,5 +88,37 @@ class RequestManager {
             headers: ["Authorization":"Bearer \(Secrets.tmdbApiKey)"],
             responseType: MovieResponse.self)
     }
+    
+    static func getDetail(movieId:Int) async throws -> Movie {
+        let url = Secrets.url + "/movie/\(movieId)?language=en-US"
+        
+        return try await APIService.performRequest(
+            url: url,
+            method: .GET,
+            headers: ["Authorization":"Bearer \(Secrets.tmdbApiKey)"],
+            responseType: Movie.self)
+    }
+    
+    static func getSimilar(movieId:Int) async throws -> [Movie] {
+        let url = Secrets.url + "/movie/\(movieId)/similar?language=en-US&page=1"
+        
+        let response = try await APIService.performRequest(
+               url: url,
+               method: .GET,
+               headers: ["Authorization": "Bearer \(Secrets.tmdbApiKey)"],
+               responseType: MovieResponse.self
+           )
+        return response.results
+    }
+    static func getCredits(movieId:Int) async throws -> MovieCastResponse {
+        let url = Secrets.url + "/movie/\(movieId)/credits?language=en-US"
+        
+        return try await APIService.performRequest(
+            url: url,
+            method: .GET,
+            headers: ["Authorization":"Bearer \(Secrets.tmdbApiKey)"],
+            responseType: MovieCastResponse.self)
+    }
+    
 
 }

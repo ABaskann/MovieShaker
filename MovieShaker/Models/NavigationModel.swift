@@ -11,9 +11,10 @@ import SwiftUI
 class NavigationModel: ObservableObject {
     // Her sekme için ayrı NavigationPath
     @Published var homePath = NavigationPath()
-    @Published var searchPath = NavigationPath()
+    @Published var shakePath = NavigationPath()
 //    @Published var blogPath = NavigationPath()
     @Published var categoryPath = NavigationPath()
+    
 
 
     // İstediğin sekmede navigate et
@@ -50,16 +51,16 @@ class NavigationModel: ObservableObject {
     func resetAllPaths() {
         homePath = NavigationPath()
         categoryPath = NavigationPath()
-        searchPath = NavigationPath()
+        shakePath = NavigationPath()
     }
 }
 
 // Tüm ekranları temsil eden enum
 enum Page: Hashable {
-  
     case Home
     case Category
     case Shake
+    case MovieDetail(Int)
    
 }
 

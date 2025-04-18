@@ -48,6 +48,7 @@ struct ContentView: View {
         case .Home: HomeView()
         case .Shake: ShakeView()
         case .Category: CategoryView()
+        case .MovieDetail(let id): MovieDetailView(movieId: id)
         }
     }
 }

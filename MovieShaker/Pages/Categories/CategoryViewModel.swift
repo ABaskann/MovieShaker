@@ -50,10 +50,10 @@ class CategoryViewModel: ObservableObject {
 
                     for genre in genreResponse.genres {
                         if let movie = try? await RequestManager.getPopularbyCategory(genreId: genre.id) {
-                            let item = GenreWithPoster(id: genre.id, name: genre.name, posterPath: movie.posterPath)
+                            let item = GenreWithPoster(id: genre.id, name: genre.name, posterPath: movie.posterPath,backdropPath: movie.backdropPath)
                             items.append(item)
                         } else {
-                            items.append(GenreWithPoster(id: genre.id, name: genre.name, posterPath: nil))
+                            items.append(GenreWithPoster(id: genre.id, name: genre.name, posterPath: nil,backdropPath: nil))
                         }
                     }
 

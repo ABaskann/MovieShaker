@@ -40,5 +40,18 @@ struct MovieCardView: View {
     }
 
 #Preview {
-    MovieCardView(movie: Movie(id: 1, title: "Title", overview: "", posterPath: "/dDlfjR7gllmr8HTeN6rfrYhTdwX.jpg", backdropPath: "", voteAverage: 2.0, genreIDs: [12], releaseDate: ""), index: 1)
+    MovieCardView(movie: Movie(
+        id: 1,
+        title: "Spiderman No Way Home Spiderman No Way Home",
+        overview: "A great superhero movie",
+        posterPath: "/iHf6bXPghWB6gT8kFkL1zo00x6X.jpg",
+        backdropPath: "/op3qmNhvwEvyT7UFyPbIfQmKriB.jpg",
+        voteAverage: 4.8,
+        genreIDs: [28, 12],
+        genres: [Genre(id: 28, name: "Action"), Genre(id: 12, name: "Adventure")],
+        releaseDate: "2020-11-12",
+        runTime: 132,
+        tagline: "No way back!",
+        belongsToCollection: nil
+    ), index: 1)
 }

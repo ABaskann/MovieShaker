@@ -36,7 +36,7 @@ struct CategoryView: View {
 
         var body: some View {
             ZStack(alignment: .bottom) {
-                AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(category.posterPath ?? "")")) { image in
+                AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(category.backdropPath ?? "")")) { image in
                     image.resizable().scaledToFill()
                 } placeholder: {
                     Color.gray.opacity(0.2)
