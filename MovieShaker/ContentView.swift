@@ -48,7 +48,10 @@ struct ContentView: View {
         case .Home: HomeView()
         case .Shake: ShakeView()
         case .Category: CategoryView()
-        case .MovieDetail(let id): MovieDetailView(movieId: id)
+        case .MovieDetail(let id):
+               MovieDetailView(movieId: id).environmentObject(navModel) // ✅ Buraya ekle
+           case .MovieList(let id):
+               MovieListView(genreId: id).environmentObject(navModel)
         }
     }
 }

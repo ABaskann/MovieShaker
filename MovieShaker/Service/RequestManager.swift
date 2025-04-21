@@ -39,8 +39,19 @@ class RequestManager {
         return response.results.first
     }
     
+    static func getMoviesCategory(genreId: Int, page: Int = 1) async throws -> MovieResponse {
+        let url = Secrets.url + "/discover/movie?include_adult=false&include_video=false&language=en-US&page=\(page)&sort_by=vote_count.desc&with_genres=\(genreId)"
+        
+        return try await APIService.performRequest(
+            url: url,
+            method: .GET,
+            headers: ["Authorization":"Bearer \(Secrets.tmdbApiKey)"],
+            responseType: MovieResponse.self
+        )
+    }
+    
     static func getTopRatedMovie() async throws -> MovieResponse {
-        let url = Secrets.url + "/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_count.desc"
+        let url = Secrets.url + "/trending/movie/day?language=en-US"
         
         return try await APIService.performRequest(
             url: url,

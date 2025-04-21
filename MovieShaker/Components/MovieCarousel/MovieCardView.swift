@@ -17,7 +17,8 @@ struct MovieCardView: View {
                 AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? "")")) { image in
                     image.resizable().scaledToFill()
                 } placeholder: {
-                    Color.gray.opacity(0.2)
+                    ProgressView()
+                        .foregroundStyle(.color1)
                 }
                 .frame(width: 144, height: 210)
                 .clipped()

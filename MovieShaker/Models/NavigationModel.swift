@@ -61,6 +61,7 @@ enum Page: Hashable {
     case Category
     case Shake
     case MovieDetail(Int)
+    case MovieList(Int)
    
 }
 

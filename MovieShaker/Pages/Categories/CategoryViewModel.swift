@@ -10,7 +10,7 @@ import Foundation
 class CategoryViewModel: ObservableObject {
     
    @Published var categories: [Genre] = []
-    @Published var genreItems: [GenreWithPoster] = []
+   @Published var genreItems: [GenreWithPoster] = []
     
     func getCategories(){
         Task{

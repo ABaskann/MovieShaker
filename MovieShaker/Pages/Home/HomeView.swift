@@ -20,6 +20,7 @@ struct HomeView: View {
             Color.background.ignoresSafeArea()
             
             VStack {
+                
                 MovieCarouselView()
                 
                 categoryPicker

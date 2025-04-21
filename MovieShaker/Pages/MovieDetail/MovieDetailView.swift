@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MovieDetailView: View {
     @StateObject var viewModel = MovieDetailViewModel()
-    @State private var selectedCategory = "Similar Movies"
+    @State private var selectedCategory = "About Movie"
     
     let categories = ["About Movie", "Credits", "Similar Movies"]
     let movieId: Int
@@ -28,7 +28,8 @@ struct MovieDetailView: View {
                             AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(movie.backdropPath ?? "")")) { image in
                                 image.resizable().scaledToFill()
                             } placeholder: {
-                                Rectangle().fill(Color.gray.opacity(0.2))
+                                ProgressView()
+                                    .foregroundStyle(.color1)
                             }
                             .frame(height: 200)
                             .opacity(0.7)
@@ -37,28 +38,28 @@ struct MovieDetailView: View {
                                 AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? "")")) { image in
                                     image.resizable().scaledToFill()
                                 } placeholder: {
-                                    Rectangle().fill(Color.gray.opacity(0.2))
+                                    ProgressView()
+                                        .foregroundStyle(.color1)
                                 }
                                 .cornerRadius(8)
                                 .frame(width: 95, height: 120)
-                                
-                                Text(movie.title)
-                                    .font(.title2)
-                                    .foregroundColor(.white)
-                                    .padding(.horizontal)
-                                    .multilineTextAlignment(.leading)
-                                    .offset(y: 20)
+                                    Text(movie.title)
+                                        .font(.title2)
+                                        .foregroundColor(.white)
+                                        .padding(.horizontal)
+                                        .multilineTextAlignment(.leading)
+                                        .offset(y: 25)
                             }
                             .offset(x: 25, y: 80)
                         }
                         
                         // INFO CAPSULES
                         InfoCapsulesView(movie: movie)
-                            .offset(y: 120)
+                            .offset(y: 100)
                         
                         // CATEGORY PICKER
                         CategoryPickerView(categories: categories, selectedCategory: $selectedCategory)
-                            .padding(.top, 140)
+                            .padding(.top, 100)
                         
                         // CATEGORY CONTENT
                         ScrollView {
@@ -80,7 +81,7 @@ struct MovieDetailView: View {
                     }
                 
             } else {
-                ProgressView("Yükleniyor...")
+                ProgressView("Loading...")
             }
         }
         .onAppear {
@@ -96,31 +97,20 @@ struct InfoCapsulesView: View {
     
     var body: some View {
         HStack(alignment:.center) {
-            CapsuleItem(icon: "calendar", text: movie.releaseDate?.split(separator: "-").first.map(String.init) ?? "Süre yok")
-            CapsuleItem(icon: "clock", text: movie.runTime.map { "\($0) min" } ?? "Süre yok")
-            CapsuleItem(icon: "ticket", text: movie.genres?.first?.name ?? "Tür yok")
+            CapsuleItem(icon: "calendar", text: movie.releaseDate?.split(separator: "-").first.map(String.init) ?? "No Date")
+            CapsuleItem(icon: "clock", text: movie.runTime.map { "\($0) min" } ?? "No Time")
+            
+            CapsuleItem(
+                icon: "star",
+                text: movie.voteAverage.map { String(format: "%.1f", $0) } ?? "No Rating"
+            )
+            CapsuleItem(icon: "ticket", text: movie.genres?.first?.name ?? "No Genres")
         }
         .padding(.horizontal)
     }
 }
 
-struct CapsuleItem: View {
-    let icon: String
-    let text: String
-    
-    var body: some View {
-        HStack(alignment: .center) {
-            Image(systemName: icon)
-            Text(text)
-        }
-        .foregroundStyle(.white)
-        .padding(.vertical, 4)
-        .padding(.horizontal,8)
-        .background(Color.color1.opacity(0.5))
-        .clipShape(Capsule())
-        .font(.headline.bold())
-    }
-}
+
 
 struct CategoryPickerView: View {
     let categories: [String]
@@ -129,14 +119,20 @@ struct CategoryPickerView: View {
     var body: some View {
         HStack(spacing: 16) {
             ForEach(categories, id: \.self) { category in
-                Text(category)
-                
-                    .fontWeight(selectedCategory == category ? .bold : .regular)
-                    .foregroundColor(selectedCategory == category ? .color1 : .gray)
-                    .padding(.vertical, 8)
-                    .onTapGesture {
-                        selectedCategory = category
-                    }
+                VStack {
+                    Text(category)
+                        .fontWeight(selectedCategory == category ? .bold : .regular)
+                        .foregroundColor(selectedCategory == category ? .color1 : .gray)
+                        .onTapGesture {
+                            selectedCategory = category
+                        }
+                    Rectangle()
+                        .fill(Color.color1)
+                        .frame(height: selectedCategory == category ? 1 : 0)
+                        .animation(.easeInOut, value: selectedCategory)
+                }
+                .padding(.vertical, 8)
+               
             }
         }
         .padding(.horizontal)
@@ -153,7 +149,8 @@ struct CreditsGrid: View {
                     AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/w500\(cast.profilePath ?? "")")) { image in
                         image.resizable().scaledToFill()
                     } placeholder: {
-                        Color.gray.opacity(0.2)
+                        ProgressView()
+                            .foregroundStyle(.color1)
                     }
                     .frame(height: 144)
                     .clipped()
@@ -162,10 +159,12 @@ struct CreditsGrid: View {
                     Text(cast.name)
                         .font(.subheadline)
                         .foregroundStyle(.white)
+                        .multilineTextAlignment(.center)
                     
                     Text("(\(cast.character))")
                         .font(.subheadline)
                         .foregroundStyle(.white)
+                        .multilineTextAlignment(.center)
                 }
             }
         }
