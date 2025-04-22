@@ -30,7 +30,7 @@ struct CategoryView: View {
                    ForEach(viewModel.genreItems) { genre in
                        CategoryItem(category: genre)
                            .onTapGesture {
-                               navModel.navigateTo(.MovieList(genre.id), in: .category)
+                               navModel.navigateTo(.MovieList(genre.id, genre.name), in: .category)
                            }
                    }
                }

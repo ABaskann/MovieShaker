@@ -131,5 +131,17 @@ class RequestManager {
             responseType: MovieCastResponse.self)
     }
     
+    static func getRandom(page:Int) async throws -> [Movie] {
+        let url = Secrets.url + "/discover/movie?include_adult=false&include_video=false&language=en-US&page=\(page)&sort_by=primary_release_date.desc&vote_average.gte=5&vote_count.gte=300"
+        
+        let response = try await APIService.performRequest(
+               url: url,
+               method: .GET,
+               headers: ["Authorization": "Bearer \(Secrets.tmdbApiKey)"],
+               responseType: MovieResponse.self
+           )
+        return response.results
+    }
+    
 
 }

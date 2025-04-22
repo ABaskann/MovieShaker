@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var navModel = NavigationModel()
-    @State private var selectedTab: AppTab = .home
+    @State private var selectedTab: AppTab = .shake
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -50,8 +50,8 @@ struct ContentView: View {
         case .Category: CategoryView()
         case .MovieDetail(let id):
                MovieDetailView(movieId: id).environmentObject(navModel) // ✅ Buraya ekle
-           case .MovieList(let id):
-               MovieListView(genreId: id).environmentObject(navModel)
+           case .MovieList(let id,let genre):
+               MovieListView(genreId: id,genre: genre).environmentObject(navModel)
         }
     }
 }

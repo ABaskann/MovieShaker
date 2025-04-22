@@ -61,7 +61,7 @@ enum Page: Hashable {
     case Category
     case Shake
     case MovieDetail(Int)
-    case MovieList(Int)
+    case MovieList(Int,String)
    
 }
 

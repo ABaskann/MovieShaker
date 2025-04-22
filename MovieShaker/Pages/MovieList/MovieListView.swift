@@ -11,28 +11,42 @@ struct MovieListView: View {
     @EnvironmentObject var navModel: NavigationModel
     @StateObject var viewModel = MovieListViewModel()
     var genreId: Int
+    var genre: String
     let columns = Array(repeating: GridItem(.flexible(), spacing: 16), count: 3)
     var body: some View {
         
         ZStack {
             Color.background.ignoresSafeArea()
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(viewModel.movies.indices, id: \.self) { index in
-                        let movie = viewModel.movies[index]
-                        MovieItem(movie: movie)
-                            .onTapGesture {
-                                navModel.navigateTo(.MovieDetail(movie.id), in: .category)
-                            }
-                            .onAppear {
-                                if index == viewModel.movies.count - 1 {
-                                    viewModel.getMovies(genreId: genreId) // Son elemana gelince yeni veri çek
+            VStack{
+                HStack{
+                    Text(genre)
+                        .foregroundStyle(.white)
+                        .font(.title3.bold())
+                }.background(
+                    Rectangle().frame(height: 2).foregroundColor(.color1)
+                        .offset(y:16)
+                )
+                
+               
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 16) {
+                        ForEach(viewModel.movies.indices, id: \.self) { index in
+                            let movie = viewModel.movies[index]
+                            MovieItem(movie: movie)
+                                .onTapGesture {
+                                    navModel.navigateTo(.MovieDetail(movie.id), in: .category)
                                 }
-                            }
+                                .onAppear {
+                                    if index == viewModel.movies.count - 1 {
+                                        viewModel.getMovies(genreId: genreId) // Son elemana gelince yeni veri çek
+                                    }
+                                }
+                        }
                     }
+                    .padding()
                 }
-                .padding()
             }
+            
             .onAppear {
                 viewModel.reset()
                 viewModel.getMovies(genreId: genreId)
@@ -42,5 +56,5 @@ struct MovieListView: View {
 }
 
 #Preview {
-    MovieListView(genreId:28)
+    MovieListView(genreId:28,genre:"Action")
 }
