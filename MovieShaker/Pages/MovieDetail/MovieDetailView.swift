@@ -10,6 +10,8 @@ import SwiftUI
 struct MovieDetailView: View {
     @StateObject var viewModel = MovieDetailViewModel()
     @State private var selectedCategory = "About Movie"
+    @AppStorage("movieList") var movieListData: String = "[]"
+    @State var isFavorite: Bool = false
     
     let categories = ["About Movie", "Credits", "Similar Movies"]
     let movieId: Int
@@ -76,9 +78,28 @@ struct MovieDetailView: View {
                                 }
                             }
                         }
+                        HStack{
+                           
+//                            Image(systemName: "x.circle")
+//                                .foregroundStyle(.color2)
+//                                .font(.largeTitle)
+//                                .padding(.horizontal)
+                            Image(systemName:isFavorite ? "popcorn.fill" : "popcorn")
+                                .foregroundStyle(Color.color1)
+                                .font(.largeTitle)
+                                .padding(.vertical)
+                                .onTapGesture {
+                                    if let title = viewModel.movie?.title {
+                                           FavoritesManager.shared.toggle(title)
+                                           isFavorite = FavoritesManager.shared.isFavorite(title)
+                                       }
+                                }
+                            
+                        }
                            
                         
                     }
+                    
                 
             } else {
                 ProgressView("Loading...")
@@ -88,6 +109,11 @@ struct MovieDetailView: View {
             viewModel.getMovieDetail(id: movieId)
             viewModel.getCredit(id: movieId)
             viewModel.getSimilarMovies(id: movieId)
+        }
+        .onChange(of: viewModel.movie) { movie in
+            if let title = movie?.title {
+                isFavorite = FavoritesManager.shared.isFavorite(title)
+            }
         }
     }
 }
