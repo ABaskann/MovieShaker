@@ -11,6 +11,9 @@ MovieShaker is a fun iOS app that helps you discover movies randomly. Powered by
 
 ## 📸 Screenshots
 
+### 🏠 App Icon
+<img src="AppIcon.png" width="300" />
+
 ### 🏠 Home Screen
 <img src="Home.png" width="300" />
 
